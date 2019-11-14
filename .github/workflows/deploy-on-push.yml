@@ -5,10 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
+    - name: Build and push Docker Image
       run: |
-        docker build . -t docker.pkg.github.com/alwinius/github-actions-test/actions
-        echo ${{ secrets.GITHUB_TOKEN }} | docker login -u alwinius --password-stdin docker.pkg.github.com
-        docker push docker.pkg.github.com/alwinius/github-actions-test/actions
+        docker build . -t docker.pkg.github.com/${{ GITHUB_REPOSITORY }}/actions
+        echo ${{ secrets.GITHUB_TOKEN }} | docker login -u ${{ GITHUB_ACTOR }} --password-stdin docker.pkg.github.com
+        docker push docker.pkg.github.com/${{ GITHUB_REPOSITORY }}/actions
